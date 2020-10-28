@@ -1,16 +1,22 @@
-const grid = document.querySelector('.grid');
-const gridNumber = document.getElementById('numberOf');
-const generateButton = document.getElementById("button");
+const grid = document.querySelector('.grid')
+
+const generateButton = document.getElementById("myButton")
 
 let squares=[]
 
 const demo = document.getElementById("demo");
+const demo2 = document.getElementById("demo2");
 
 //if you click the button, a grid will be generated
 
 function generateGrid() {
+ 
+    let num1 = document.getElementById('numberWidth').value
+    let num2 = document.getElementById('numberLength').value
+        const result = num1 * num2
+        console.log(result)
 
-    for (i=0; i<gridNumber.value; i++){
+    for (let i=0; i<result; i++){
     //creating the square
     const square = document.createElement('div');
     //giving the square an appearance
@@ -20,14 +26,9 @@ function generateGrid() {
     //push it into a new squares array    
     squares.push(square)
 }
-
+demo.innerHTML = result
 }
 
-
-function test() {
-    demo.innerHTML=gridNumber.value;
-}
 
 generateButton.addEventListener('click', generateGrid)
 
-//next make a new input to make the rectagular grid composition
