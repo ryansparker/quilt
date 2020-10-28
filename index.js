@@ -5,16 +5,20 @@ const generateButton = document.getElementById("myButton")
 let squares=[]
 
 const demo = document.getElementById("demo");
-const demo2 = document.getElementById("demo2");
+
 
 //if you click the button, a grid will be generated
 
 function generateGrid() {
  
+    //getting the value of the width and multiplying
     let num1 = document.getElementById('numberWidth').value
     let num2 = document.getElementById('numberLength').value
-        const result = num1 * num2
-        console.log(result)
+    let result = num1 * num2
+
+
+    grid.style.width=`${num1 * 50}px`
+    grid.style.height=`${num2 * 50}px`
 
     for (let i=0; i<result; i++){
     //creating the square
@@ -26,6 +30,7 @@ function generateGrid() {
     //push it into a new squares array    
     squares.push(square)
 }
+
 demo.innerHTML = result
 }
 
