@@ -2,75 +2,91 @@ const grid = document.querySelector('.grid')
 const generateButton = document.getElementById("myButton")
 const demo = document.getElementById("demo");
 
-let squares=[]
+//constructor
+const newQuilt = (width, length) => {
+    const blocks = []
 
+    const quilt = {
+        addBlock: bl => blocks.push(bl),
+        clear: () => blocks.length = 0,
+        getWidth: () => width,
+        getLength: () => length,
+        forEachBlock: cb => blocks.forEach(cb),
+        debug: () => console.log(blocks)
+    }
+
+    return quilt
+}
 
 //if you click the button, a grid will be generated
-function generateGrid() {
+function generateQuilt(w, l) {
+    const quilt = newQuilt(w, l)
 
-    //getting the value of the width and multiplying
-    let num1 = document.getElementById('numberWidth').value
-    let num2 = document.getElementById('numberLength').value
-    let result = num1 * num2
-
-    //getting overall grid to match width and height
-    grid.style.width=`${num1 * 50}px`
-    grid.style.height=`${num2 * 50}px`
-
+    let result = w * l
     
     for (let i=0; i<result; i++){
-    //creating the square
-    const square = document.createElement('div');
-    square.classList.add('square')
 
-    //adding random color
-    let randomNumber=(Math.floor(Math.random() * 5) + 1)
-    console.log(randomNumber)
-    
-    if (randomNumber ===1 ){
-        square.style.backgroundColor="pink"
-    } else if (randomNumber ===2 ){
-        square.style.backgroundColor="yellow"
-    } else if (randomNumber ===3 ){
-        square.style.backgroundColor="blue"
-    } else if (randomNumber ===4 ){
-        square.style.backgroundColor="red"
-    } else if (randomNumber ===5) {
-        square.style.backgroundColor="green"
+        //adding random color
+        let randomNumber=(Math.floor(Math.random() * 5) + 1)
+        console.log(randomNumber)
+        
+        let backgroundColor = null
+
+        if (randomNumber ===1 ){
+            backgroundColor="pink"
+        } else if (randomNumber ===2 ){
+            backgroundColor="yellow"
+        } else if (randomNumber ===3 ){
+            backgroundColor="blue"
+        } else if (randomNumber ===4 ){
+            backgroundColor="red"
+        } else if (randomNumber ===5) {
+            backgroundColor="green"
+        }
+
+        //creating the square
+        const block = {
+            backgroundColor
+        }
+        
+        //push it into a new squares array    
+        quilt.addBlock(block)
     }
-    
-    //put the element into our grid
-    grid.appendChild(square)
-    //push it into a new squares array    
-    squares.push(square)
 
-
-    
+    return quilt
 }
 
-    demo.innerHTML = result
-    
+const quilts = []
+
+function drawQuilt(quilt) {
+    grid.innerHTML = ''
+
+    quilt.forEachBlock( block => {
+        const div = document.createElement('div')
+        div.className = 'block'
+        div.style.backgroundColor = block.backgroundColor
+
+        grid.appendChild(div)
+    })
+
+    quilt.debug()
 }
 
+generateButton.addEventListener('click', ev => {
+    ev.preventDefault()
 
+    //getting the value of the width and multiplying
+    let w = document.getElementById('numberWidth').value
+    let l = document.getElementById('numberLength').value
 
-generateButton.addEventListener('click', generateGrid)
+    //getting overall grid to match width and height
+    grid.style.width=`${w * 50}px`
+    grid.style.height=`${l * 50}px`
 
+    const quilt = generateQuilt(w, l)
+    quilts.push(quilt)
 
+    drawQuilt(quilt)
 
-  // var timesClicked = 0;
-
-    // generateButton.click(function() {
-    // timesClicked++;
-
-    // if (timesClicked>1) {
-    //     resetIt()
-    // } else {
-    //     generateIt()
-    // }
-
-    // })
-
-    // function resetIt(){
-    //     squares=0
-    // }
+    console.log(quilts)
+})
