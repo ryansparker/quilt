@@ -18,6 +18,14 @@ const newQuilt = (width, length) => {
     return quilt
 }
 
+function pickRandom(array) {
+    return array[(Math.random()*array.length) | 0]
+}
+
+const shapes = ["one", "two"]
+const colors = ["magenta", "yellowgreen", "white", "black"]
+const colors2 = ["yellowgreen2", "magenta2"]
+
 //if you click the button, a grid will be generated
 function generateQuilt(w, l) {
     const quilt = newQuilt(w, l)
@@ -30,23 +38,17 @@ function generateQuilt(w, l) {
         let randomNumber=(Math.floor(Math.random() * 5) + 1)
         console.log(randomNumber)
         
-        let backgroundColor = null
+        let foregroundColor = pickRandom(colors2)
+        let backgroundColor = pickRandom(colors)
+        let shape = pickRandom(shapes)
 
-        if (randomNumber ===1 ){
-            backgroundColor="pink"
-        } else if (randomNumber ===2 ){
-            backgroundColor="yellow"
-        } else if (randomNumber ===3 ){
-            backgroundColor="blue"
-        } else if (randomNumber ===4 ){
-            backgroundColor="red"
-        } else if (randomNumber ===5) {
-            backgroundColor="green"
-        }
+        console.log(shape, backgroundColor)
 
         //creating the square
         const block = {
-            backgroundColor
+            shape,
+            backgroundColor,
+            foregroundColor
         }
         
         //push it into a new squares array    
@@ -63,8 +65,7 @@ function drawQuilt(quilt) {
 
     quilt.forEachBlock( block => {
         const div = document.createElement('div')
-        div.className = 'block'
-        div.style.backgroundColor = block.backgroundColor
+        div.className = `block ${block.shape} ${block.foregroundColor} ${block.backgroundColor}`
 
         grid.appendChild(div)
     })
